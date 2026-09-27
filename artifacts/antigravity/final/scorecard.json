@@ -1,0 +1,9 @@
+{
+  "score": 88,
+  "status": "BLOCKED",
+  "backend": "passed/failed/errors/skipped/warnings",
+  "frontend": "passed/failed",
+  "build": "FAIL",
+  "artifact_preflight": "FAIL",
+  "clean_room_reproduction": "FAIL"
+}
