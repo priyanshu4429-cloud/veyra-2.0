@@ -56,10 +56,19 @@ def check_specialist_containment() -> bool:
     return True
 
 
-def check_replay_separation() -> bool:
+def check_replay_separation(write_artifacts: bool) -> bool:
     print("[GATE G11] Checking honest replay mode separation...")
-    code1, out1, err1 = run("python scripts/replay_historical.py --mode historical", cwd=REPO_B_STR)
-    code2, out2, err2 = run("python scripts/replay_digital_twin.py --mode synthetic", cwd=REPO_B_STR)
+    python_exe = sys.executable
+    if write_artifacts:
+        code1, out1, err1 = run(f'"{python_exe}" scripts/replay_historical.py --mode historical', cwd=REPO_B_STR)
+        code2, out2, err2 = run(f'"{python_exe}" scripts/replay_digital_twin.py --mode synthetic', cwd=REPO_B_STR)
+    else:
+        import tempfile
+        with tempfile.TemporaryDirectory(prefix="veyra-verification-") as temp_dir:
+            temp_path = Path(temp_dir)
+            code1, out1, err1 = run(f'"{python_exe}" scripts/replay_historical.py --mode historical --output-json "{temp_path}/h.json"', cwd=REPO_B_STR)
+            code2, out2, err2 = run(f'"{python_exe}" scripts/replay_digital_twin.py --mode synthetic', cwd=REPO_B_STR)
+    
     if code1 != 0 or code2 != 0:
         print(f"  FAILED: Replay checks failed:\n{out1}\n{out2}\n{err1}\n{err2}")
         return False
@@ -121,6 +130,7 @@ def main():
     parser.add_argument("--require-rollback", action="store_true")
     parser.add_argument("--require-specialists", action="store_true")
     parser.add_argument("--require-claims", action="store_true")
+    parser.add_argument("--write-artifacts", action="store_true", help="Allow updating tracked artifacts")
     parser.add_argument("--output-json", default=None, help="Path to export machine-readable JSON gate report")
     args = parser.parse_args()
 
@@ -135,7 +145,7 @@ def main():
     if require_all or args.require_specialists:
         gates.append(("Specialist Containment (G8)", check_specialist_containment))
     if require_all or args.require_replay:
-        gates.append(("Replay Separation (G11)", check_replay_separation))
+        gates.append(("Replay Separation (G11)", lambda: check_replay_separation(args.write_artifacts)))
     if require_all or args.require_security:
         gates.append(("Security & Operations (G15)", check_security_and_operations))
     if require_all or args.require_rollback:
