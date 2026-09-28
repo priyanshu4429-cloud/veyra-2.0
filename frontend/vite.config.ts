@@ -33,13 +33,4 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'recharts', 'lucide-react'],
-        },
-      },
-    },
-  },
 })

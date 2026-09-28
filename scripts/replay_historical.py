@@ -736,7 +736,7 @@ def run_historical_replay(
     print(f"Abstention metrics exported to: {abst_out}")
 
     if dataset_version == "v3-p3" or "phase3" in str(fixtures):
-        bins_out = default_bins_path
+        bins_out = metrics_out.parent / "reliability_bins.json"
         with open(bins_out, "w", encoding="utf-8") as f:
             json.dump(metrics["reliability_bins"], f, indent=2)
         print(f"Reliability bins exported to: {bins_out}")
