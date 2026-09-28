@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor , act} from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MultiLocationPanel } from '../components/MultiLocationPanel';
 import { apiClient } from '../api/client';
@@ -147,7 +147,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     expect(screen.getByText('Multi-Location Reliability Intelligence')).toBeInTheDocument();
     expect(screen.getByText(/Objective reliability comparison/i)).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getAllByText('Kolkata').length).toBeGreaterThan(0);
@@ -180,7 +180,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getByText('TOTAL EVALUATED')).toBeInTheDocument();
@@ -197,7 +197,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getAllByText('Kolkata').length).toBeGreaterThan(0);
@@ -223,7 +223,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getAllByText('Kolkata').length).toBeGreaterThan(0);
@@ -251,7 +251,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getByTestId('location-card-Atlantis')).toBeInTheDocument();
@@ -266,7 +266,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getByTestId('location-card-Delhi')).toBeInTheDocument();
@@ -291,7 +291,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       }),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(spy).toHaveBeenCalledTimes(1);
@@ -329,7 +329,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       }),
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Refresh Multi-Location Intelligence/i })).toBeInTheDocument();
@@ -357,7 +357,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       },
     });
 
-    render(<MultiLocationPanel />);
+    await act(async () => { render(<MultiLocationPanel />); });
 
     await waitFor(() => {
       expect(screen.getByText('Multi-Location Query Alert')).toBeInTheDocument();
@@ -371,7 +371,7 @@ describe('MultiLocationPanel Component (Day 28)', () => {
       data: createMockMultiLocationResponse(),
     });
 
-    render(<MultiLocationPanel onNavigateToSpatial={navSpy} />);
+    await act(async () => { render(<MultiLocationPanel onNavigateToSpatial={navSpy} />); });
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /View on Spatial Map/i })).toBeInTheDocument();

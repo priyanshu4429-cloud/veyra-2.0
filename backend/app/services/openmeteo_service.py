@@ -264,12 +264,26 @@ class OpenMeteoGEFSWeatherService(BaseWeatherService):
 
                 arr = np.array(all_series, dtype=float)
                 member_counts = np.sum(~np.isnan(arr), axis=0)
-                means = np.nanmean(arr, axis=0)
-                stds = np.where(member_counts > 1, np.nanstd(arr, axis=0, ddof=1), 0.0)
-                mins = np.nanmin(arr, axis=0)
-                maxs = np.nanmax(arr, axis=0)
-                q10s = np.nanpercentile(arr, 10, axis=0)
-                q90s = np.nanpercentile(arr, 90, axis=0)
+                
+                n_cols = arr.shape[1]
+                means = np.full(n_cols, np.nan)
+                stds = np.zeros(n_cols)
+                mins = np.full(n_cols, np.nan)
+                maxs = np.full(n_cols, np.nan)
+                q10s = np.full(n_cols, np.nan)
+                q90s = np.full(n_cols, np.nan)
+                
+                valid_mask = member_counts > 0
+                if np.any(valid_mask):
+                    means[valid_mask] = np.nanmean(arr[:, valid_mask], axis=0)
+                    mins[valid_mask] = np.nanmin(arr[:, valid_mask], axis=0)
+                    maxs[valid_mask] = np.nanmax(arr[:, valid_mask], axis=0)
+                    q10s[valid_mask] = np.nanpercentile(arr[:, valid_mask], 10, axis=0)
+                    q90s[valid_mask] = np.nanpercentile(arr[:, valid_mask], 90, axis=0)
+                
+                std_mask = member_counts > 1
+                if np.any(std_mask):
+                    stds[std_mask] = np.nanstd(arr[:, std_mask], axis=0, ddof=1)
 
                 var_stats[src_var] = {
                     "vals": val_floats,

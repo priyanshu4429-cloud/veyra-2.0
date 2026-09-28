@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor , act} from '@testing-library/react';
 import { App } from '../App';
 import { ForecastRiskTimeline } from '../components/ForecastRiskTimeline';
 import { HorizonRiskDetails } from '../components/HorizonRiskDetails';
@@ -154,7 +154,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.restoreAllMocks();
   });
 
-  it('1. Timeline renders expected horizon count (7 nodes for 7-Day preset)', () => {
+  it('1. Timeline renders expected horizon count (7 nodes for 7-Day preset)', async () => {
     const timeline = createMockTimeline();
     const handleSelect = vi.fn();
 
@@ -171,7 +171,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText('7 Valid')).toBeInTheDocument();
   });
 
-  it('2. Real backend probability values render accurately in nodes', () => {
+  it('2. Real backend probability values render accurately in nodes', async () => {
     const timeline = createMockTimeline();
     render(
       <ForecastRiskTimeline
@@ -184,7 +184,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText('5.75%')).toBeInTheDocument();
   });
 
-  it('3. Four-decimal percentage formatting rendered in HorizonRiskDetails', () => {
+  it('3. Four-decimal percentage formatting rendered in HorizonRiskDetails', async () => {
     const point: HorizonPointResult = {
       lead_hours: 96,
       lead_days: 4,
@@ -206,7 +206,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText('HIGH_CONFIDENCE')).toBeInTheDocument();
   });
 
-  it('4. Preserves requested horizon ordering (24h to 168h)', () => {
+  it('4. Preserves requested horizon ordering (24h to 168h)', async () => {
     const timeline = createMockTimeline();
     const { container } = render(
       <ForecastRiskTimeline
@@ -221,7 +221,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(textValues).toEqual(['24h', '48h', '72h', '96h', '120h', '144h', '168h']);
   });
 
-  it('5. Node selection updates details view', () => {
+  it('5. Node selection updates details view', async () => {
     const timeline = createMockTimeline();
     const handleSelect = vi.fn();
 
@@ -239,7 +239,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(handleSelect).toHaveBeenCalledWith(120);
   });
 
-  it('6. Selected explanation strictly belongs to selected horizon (no cross-horizon mixing)', () => {
+  it('6. Selected explanation strictly belongs to selected horizon (no cross-horizon mixing)', async () => {
     const point96: HorizonPointResult = {
       lead_hours: 96,
       lead_days: 4,
@@ -261,7 +261,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getAllByText('96').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('7. Keyboard selection triggers onSelectHorizon via Enter and Space', () => {
+  it('7. Keyboard selection triggers onSelectHorizon via Enter and Space', async () => {
     const timeline = createMockTimeline();
     const handleSelect = vi.fn();
 
@@ -281,7 +281,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(handleSelect).toHaveBeenCalledWith(48);
   });
 
-  it('8. ArrowLeft and ArrowRight step through horizons', () => {
+  it('8. ArrowLeft and ArrowRight step through horizons', async () => {
     const timeline = createMockTimeline();
     const handleSelect = vi.fn();
 
@@ -301,7 +301,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(handleSelect).toHaveBeenCalledWith(24);
   });
 
-  it('9. Abstained horizon representation displays safe warning and is not green', () => {
+  it('9. Abstained horizon representation displays safe warning and is not green', async () => {
     const abstainedPoint: HorizonPointResult = {
       lead_hours: 72,
       lead_days: 3,
@@ -323,7 +323,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText(/not a low-risk prediction/i)).toBeInTheDocument();
   });
 
-  it('10. Null probability never becomes 0% on abstained or error points', () => {
+  it('10. Null probability never becomes 0% on abstained or error points', async () => {
     const abstainedPoint: HorizonPointResult = {
       lead_hours: 72,
       lead_days: 3,
@@ -355,7 +355,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.queryByText('0.0000%')).not.toBeInTheDocument();
   });
 
-  it('11. Partial request failure handles mixed success, abstention, and error', () => {
+  it('11. Partial request failure handles mixed success, abstention, and error', async () => {
     const points: HorizonPointResult[] = [
       {
         lead_hours: 24,
@@ -412,7 +412,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText('1 Unavailable')).toBeInTheDocument();
   });
 
-  it('12. Complete timeline error renders error details card', () => {
+  it('12. Complete timeline error renders error details card', async () => {
     const errorPoint: HorizonPointResult = {
       lead_hours: 24,
       lead_days: 1,
@@ -434,7 +434,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText('Network connection failed.')).toBeInTheDocument();
   });
 
-  it('13 & 14. Missing/abstained horizon breaks line without interpolation', () => {
+  it('13 & 14. Missing/abstained horizon breaks line without interpolation', async () => {
     const points: HorizonPointResult[] = [
       {
         lead_hours: 24,
@@ -482,7 +482,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(polylines).toHaveLength(0);
   });
 
-  it('15 & 16. Backend risk state and trust state are faithfully rendered', () => {
+  it('15 & 16. Backend risk state and trust state are faithfully rendered', async () => {
     const point: HorizonPointResult = {
       lead_hours: 96,
       lead_days: 4,
@@ -508,7 +508,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
     vi.spyOn(apiClient, 'getDashboardIntelligence').mockResolvedValue({ data: mockTimeline, requestId: 'req_1' });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const submitBtn = screen.getByRole('button', { name: /Audit Reliability/i });
     fireEvent.click(submitBtn);
@@ -527,7 +527,9 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
 
     expect(screen.getByRole('button', { name: /Auditing Reliability/i })).toBeInTheDocument();
 
-    resolvePromise!({ data: mockTimeline, requestId: 'req_2' });
+    await act(async () => {
+      resolvePromise!({ data: mockTimeline, requestId: 'req_2' });
+    });
   });
 
   it('18. Validation failure clears stale timeline state', async () => {
@@ -535,7 +537,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
     vi.spyOn(apiClient, 'getDashboardIntelligence').mockResolvedValue({ data: mockTimeline, requestId: 'req_1' });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const submitBtn = screen.getByRole('button', { name: /Audit Reliability/i });
     fireEvent.click(submitBtn);
@@ -557,7 +559,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
       error: { error: 'RATE_LIMIT_EXCEEDED', message: 'Rate limit exceeded. Please retry after 15 seconds.', status_code: 429 },
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const submitBtn = screen.getByRole('button', { name: /Audit Reliability/i });
     fireEvent.click(submitBtn);
@@ -567,7 +569,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     });
   });
 
-  it('20. Accessible SVG title and description present', () => {
+  it('20. Accessible SVG title and description present', async () => {
     const timeline = createMockTimeline();
     render(
       <ForecastRiskTimeline
@@ -581,7 +583,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText(/Multi-horizon probability curve/i)).toBeInTheDocument();
   });
 
-  it('21. Accessible semantic fallback data table rendered', () => {
+  it('21. Accessible semantic fallback data table rendered', async () => {
     const timeline = createMockTimeline();
     render(
       <ForecastRiskTimeline
@@ -601,7 +603,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
     vi.spyOn(apiClient, 'getDashboardIntelligence').mockResolvedValue({ data: mockSingle, requestId: 'req_single' });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const modeSelect = screen.getByLabelText(/Evaluation Horizon Mode/i);
     fireEvent.change(modeSelect, { target: { value: 'single' } });
@@ -620,7 +622,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
     vi.spyOn(apiClient, 'getDashboardIntelligence').mockResolvedValue({ data: mockTimeline, requestId: 'req_7d' });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     // 1. Submit timeline in standard_7d mode
     const submitBtn = screen.getByRole('button', { name: /Audit Reliability/i });
@@ -644,7 +646,7 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
     vi.spyOn(apiClient, 'getDashboardIntelligence').mockResolvedValue({ data: mockSingle, requestId: 'req_single' });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     // 1. Switch to Single mode and submit
     const modeSelect = screen.getByLabelText(/Evaluation Horizon Mode/i);
@@ -665,10 +667,10 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText(/FORECAST BUST RISK TIMELINE STANDBY/i)).toBeInTheDocument();
   });
 
-  it('25. Mode switching before submission preserves clean empty states without rendering stale results', () => {
+  it('25. Mode switching before submission preserves clean empty states without rendering stale results', async () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const modeSelect = screen.getByLabelText(/Evaluation Horizon Mode/i);
 
@@ -684,10 +686,10 @@ describe('Day 16 — Visual Forecast Risk & Timeline Tests', () => {
     expect(screen.getByText(/FORECAST BUST RISK TIMELINE STANDBY/i)).toBeInTheDocument();
   });
 
-  it('26. Location and variable form inputs are preserved across mode switches', () => {
+  it('26. Location and variable form inputs are preserved across mode switches', async () => {
     vi.spyOn(apiClient, 'getHealth').mockResolvedValue({ data: { status: 'ok', service: 'veyra-api', version: '0.1.0' } });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     // Change location to Kolkata and variable to surface_pressure
     const locInput = screen.getByLabelText(/Location Name or Coordinates/i);

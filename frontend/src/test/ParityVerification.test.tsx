@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor , act} from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App from '../App';
 import { apiClient } from '../api/client';
@@ -120,7 +120,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
       data: mockMultiHorizonData,
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const locationInput = screen.getByLabelText(/location name or coordinates/i);
     fireEvent.change(locationInput, { target: { value: 'Delhi' } });
@@ -247,7 +247,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
       data: mockAbstainData,
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const locationInput = screen.getByLabelText(/location name or coordinates/i);
     fireEvent.change(locationInput, { target: { value: 'Atlantis' } });
@@ -284,7 +284,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
       },
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     // Must show the standby notice, NOT the red abstention alert
     expect(screen.getByText(/Telemetry Standby • Awaiting Reliability Audit/i)).toBeInTheDocument();

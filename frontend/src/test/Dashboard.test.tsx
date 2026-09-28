@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor , act} from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App from '../App';
 import { ForecastForm } from '../components/ForecastForm';
@@ -101,7 +101,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       data: { status: 'ok', service: 'forecast-bust-sentinel', version: '0.1.0' },
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
     expect(screen.getByText('VEYRA SENTINEL')).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
   });
 
   it('validates required fields and shows client-side validation error on blank location', async () => {
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
     fireEvent.change(locationInput, { target: { value: '   ' } });
@@ -120,7 +120,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(submitBtn).toBeDisabled();
   });
 
-  it('renders a normal successful prediction with accurate probability formatting', () => {
+  it('renders a normal successful prediction with accurate probability formatting', async () => {
     const mockPrediction: PredictionResponse = {
       location: 'London',
       bust_probability: 0.0569,
@@ -147,7 +147,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText(/prototype-gbm-v1/i)).toBeInTheDocument();
   });
 
-  it('renders abstention safely without ever converting null probability to 0% or LOW risk', () => {
+  it('renders abstention safely without ever converting null probability to 0% or LOW risk', async () => {
     const mockAbstained: PredictionResponse = {
       location: 'Atlantis',
       bust_probability: null,
@@ -169,7 +169,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.queryByText('Risk: LOW')).not.toBeInTheDocument();
   });
 
-  it('renders physical explainability driver summary and contributing factors', () => {
+  it('renders physical explainability driver summary and contributing factors', async () => {
     const mockExplanation = {
       primary_driver: 'rapid_inter_cycle_revision',
       driver_summary: 'High risk driven by rapid 24h run-to-run forecast revision (+2.40 unit drift).',
@@ -188,7 +188,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('2.4')).toBeInTheDocument();
   });
 
-  it('renders HTTP 429 rate limit error with Retry-After backoff notice', () => {
+  it('renders HTTP 429 rate limit error with Retry-After backoff notice', async () => {
     const error429 = {
       error: 'RATE_LIMIT_EXCEEDED',
       message: 'Too many requests. Please retry after the specified backoff period.',
@@ -204,7 +204,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText(/req_test12345678/i)).toBeInTheDocument();
   });
 
-  it('renders HTTP 422 input validation errors clearly', () => {
+  it('renders HTTP 422 input validation errors clearly', async () => {
     const error422 = {
       error: 'VALIDATION_ERROR',
       message: 'Validation failed for the request payload.',
@@ -220,7 +220,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText(/req_val_err_999/i)).toBeInTheDocument();
   });
 
-  it('renders network connection errors gracefully', () => {
+  it('renders network connection errors gracefully', async () => {
     const netError = {
       error: 'NETWORK_ERROR',
       message: 'Unable to connect to Veyra backend: Failed to fetch',
@@ -245,7 +245,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       requestId: 'req_kolkata_001',
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
     fireEvent.change(locationInput, { target: { value: 'Kolkata' } });
@@ -281,7 +281,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     });
   });
 
-  it('populates location input when clicking a quick location pill', () => {
+  it('populates location input when clicking a quick location pill', async () => {
     const handleSubmit = vi.fn();
     render(<ForecastForm onSubmit={handleSubmit} isLoading={false} />);
 
@@ -292,7 +292,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(locationInput.value).toBe('Tokyo');
   });
 
-  it('dismisses error banner when close button is clicked', () => {
+  it('dismisses error banner when close button is clicked', async () => {
     const handleDismiss = vi.fn();
     const mockError = {
       error: 'TEST_ERROR',
@@ -307,12 +307,12 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(handleDismiss).toHaveBeenCalled();
   });
 
-  it('renders null explanation safely without errors', () => {
+  it('renders null explanation safely without errors', async () => {
     const { container } = render(<ExplainabilityView explanation={null} />);
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('renders HIGH risk level with appropriate styling and accessible text', () => {
+  it('renders HIGH risk level with appropriate styling and accessible text', async () => {
     const mockHighRisk: PredictionResponse = {
       location: 'Delhi',
       bust_probability: 0.684,
@@ -386,7 +386,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       requestId: 'req_init_001',
     });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     // Step 1: Initial successful prediction
     const submitBtn = screen.getByRole('button', { name: /AUDIT RELIABILITY/i });
@@ -417,7 +417,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       .mockResolvedValueOnce({ data: mockSuccess })
       .mockResolvedValueOnce({ data: mockAbstention });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
 
     const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
     const submitBtn = screen.getByRole('button', { name: /AUDIT RELIABILITY/i });
@@ -453,7 +453,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
         error: { error: 'NETWORK_ERROR', message: 'Connection lost to server', status_code: 0 },
       });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
     const submitBtn = screen.getByRole('button', { name: /AUDIT RELIABILITY/i });
 
     // 1st request -> Success
@@ -483,7 +483,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       })
       .mockResolvedValueOnce({ data: mockSuccess });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
     const submitBtn = screen.getByRole('button', { name: /AUDIT RELIABILITY/i });
 
     // 1st attempt -> 429
@@ -512,7 +512,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
       .mockResolvedValueOnce({ data: mockA })
       .mockResolvedValueOnce({ data: mockB });
 
-    render(<App />);
+    await act(async () => { render(<App />); });
     const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
     const submitBtn = screen.getByRole('button', { name: /AUDIT RELIABILITY/i });
 
@@ -530,7 +530,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getAllByText('HIGH')[0]).toBeInTheDocument();
   });
 
-  it('TEST F: renders exact backend 96h lead hours and medium-range signal in ExplainabilityView', () => {
+  it('TEST F: renders exact backend 96h lead hours and medium-range signal in ExplainabilityView', async () => {
     const mock96hExplanation = {
       primary_driver: 'stable_ensemble_agreement',
       driver_summary: 'Stable medium-range 96-hour forecast consensus.',
@@ -547,7 +547,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('Medium Range Horizon')).toBeInTheDocument();
   });
 
-  it('TEST G: accurately formats bust_probability = 0.05691234 to 5.69% without invented digits', () => {
+  it('TEST G: accurately formats bust_probability = 0.05691234 to 5.69% without invented digits', async () => {
     const mockDetailedProb: PredictionResponse = {
       location: 'Kolkata',
       bust_probability: 0.05691234,
@@ -564,7 +564,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('5.69%')).toBeInTheDocument();
   });
 
-  it('TEST H: accurately formats bust_probability = 0.0571 to 5.71%', () => {
+  it('TEST H: accurately formats bust_probability = 0.0571 to 5.71%', async () => {
     const mockProb: PredictionResponse = {
       location: 'Tokyo',
       bust_probability: 0.0571,
@@ -581,7 +581,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('5.71%')).toBeInTheDocument();
   });
 
-  it('TEST I: accurately formats bust_probability = 0.1 to 10.00%', () => {
+  it('TEST I: accurately formats bust_probability = 0.1 to 10.00%', async () => {
     const mockProb: PredictionResponse = {
       location: 'Dubai',
       bust_probability: 0.1,
@@ -598,7 +598,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('10.00%')).toBeInTheDocument();
   });
 
-  it('TEST J: accurately formats bust_probability = 0 to 0.00% for non-abstained response', () => {
+  it('TEST J: accurately formats bust_probability = 0 to 0.00% for non-abstained response', async () => {
     const mockZeroProb: PredictionResponse = {
       location: 'London',
       bust_probability: 0.0,
@@ -615,7 +615,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
     expect(screen.getByText('0.00%')).toBeInTheDocument();
   });
 
-  it('TEST K: verifies abstained/null probability strictly avoids displaying 0.0000% or 0%', () => {
+  it('TEST K: verifies abstained/null probability strictly avoids displaying 0.0000% or 0%', async () => {
     const mockAbstained: PredictionResponse = {
       location: 'Atlantis',
       bust_probability: null,
@@ -661,7 +661,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
         .mockResolvedValueOnce({ data: mockDelhi })
         .mockResolvedValueOnce({ data: mockInvalid });
 
-      render(<App />);
+      await act(async () => { render(<App />); });
 
       const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
       const latInput = screen.getByLabelText(/Latitude/i) as HTMLInputElement;
@@ -724,7 +724,7 @@ describe('Veyra Frontend Dashboard Component Tests', () => {
         .mockResolvedValueOnce({ data: mockInvalid })
         .mockResolvedValueOnce({ data: mockKolkata });
 
-      render(<App />);
+      await act(async () => { render(<App />); });
 
       const locationInput = screen.getByLabelText(/Location Name or Coordinates/i);
       const latInput = screen.getByLabelText(/Latitude/i) as HTMLInputElement;

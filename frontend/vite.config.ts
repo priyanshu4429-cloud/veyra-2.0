@@ -16,6 +16,18 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          charting: ['chart.js', 'react-chartjs-2'],
+          maps: ['leaflet', 'react-leaflet'],
+          icons: ['lucide-react']
+        }
+      }
+    }
+  },
   test: {
     globals: true,
     environment: 'jsdom',

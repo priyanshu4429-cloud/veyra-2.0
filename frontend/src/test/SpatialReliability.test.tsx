@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor , act} from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SpatialReliabilityPanel } from '../components/SpatialReliabilityPanel';
 import { apiClient } from '../api/client';
@@ -156,7 +156,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: createMockSpatialResponse(),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     expect(screen.getByText('Spatial Forecast Reliability Intelligence')).toBeInTheDocument();
     expect(
@@ -169,7 +169,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: createMockSpatialResponse(),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       const markers = screen.getAllByTestId('mock-circle-marker');
@@ -189,7 +189,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: createMockSpatialResponse(),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       expect(screen.getByText('PEAK P(BUST)')).toBeInTheDocument();
@@ -208,7 +208,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: createMockSpatialResponse(),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       expect(screen.getAllByTestId('mock-circle-marker')).toHaveLength(4);
@@ -277,7 +277,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: mixedResponse,
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       // Only 1 marker plotted on map (Kolkata), Atlantis must NOT be plotted
@@ -327,7 +327,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: allAbstainedResponse,
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       // Must render 'N/A', NOT '0.0%' or 'LOW'
@@ -341,7 +341,7 @@ describe('SpatialReliabilityPanel Component', () => {
       data: createMockSpatialResponse(),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Refresh Spatial Intelligence/i })).toBeInTheDocument();
@@ -374,7 +374,7 @@ describe('SpatialReliabilityPanel Component', () => {
       }),
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Refresh Spatial Intelligence/i })).toBeInTheDocument();
@@ -402,7 +402,7 @@ describe('SpatialReliabilityPanel Component', () => {
       },
     });
 
-    render(<SpatialReliabilityPanel />);
+    await act(async () => { render(<SpatialReliabilityPanel />); });
 
     await waitFor(() => {
       expect(screen.getByText('Spatial Query Alert')).toBeInTheDocument();

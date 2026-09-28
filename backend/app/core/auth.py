@@ -194,18 +194,18 @@ def sanitize_input_string(value: str, field_name: str = "input", max_length: int
     """Validate and sanitize free-text input strings against injection and buffer-overflow attempts."""
     if not value or not isinstance(value, str):
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail=f"Field '{field_name}' must be a non-empty string.",
         )
     trimmed = value.strip()
     if len(trimmed) > max_length:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail=f"Field '{field_name}' exceeds maximum allowed length of {max_length} characters.",
         )
     if not _LOCATION_REGEX.match(trimmed):
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail=f"Field '{field_name}' contains invalid characters. Only alphanumeric, spaces, commas, and hyphens allowed.",
         )
     return trimmed
