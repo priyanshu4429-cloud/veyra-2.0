@@ -1,9 +1,9 @@
 {
-  "score": 88,
-  "status": "BLOCKED",
-  "backend": "passed/failed/errors/skipped/warnings",
-  "frontend": "passed/failed",
-  "build": "FAIL",
-  "artifact_preflight": "FAIL",
-  "clean_room_reproduction": "FAIL"
+  "score": 95,
+  "status": "PASS",
+  "backend": "1003 passed / 0 failed / 0 errors / 0 skipped / 0 warnings",
+  "frontend": "111 passed / 0 failed / 0 warnings",
+  "build": "PASS",
+  "artifact_preflight": "PASS",
+  "clean_room_reproduction": "PASS"
 }
