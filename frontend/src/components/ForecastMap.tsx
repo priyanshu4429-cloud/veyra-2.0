@@ -177,7 +177,7 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
   const position: [number, number] = [centerLat, centerLon];
 
   // Layer toggles
-  const [showRiskPolygons, setShowRiskPolygons] = useState(true);
+  const [showRiskPolygons] = useState(false);
   const [showCentroidRadius, setShowCentroidRadius] = useState(true);
   const [showStations, setShowStations] = useState(true);
 
@@ -222,14 +222,7 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
 
         {/* Layer Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={showRiskPolygons}
-              onChange={(e) => setShowRiskPolygons(e.target.checked)}
-            />
-            <span>Risk Zones</span>
-          </label>
+          {/* Risk Zones toggle removed by user request */}
           <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
             <input
               type="checkbox"
