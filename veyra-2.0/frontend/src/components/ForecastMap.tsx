@@ -177,7 +177,7 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
   const position: [number, number] = [centerLat, centerLon];
 
   // Layer toggles
-  const [showRiskPolygons, setShowRiskPolygons] = useState(false);
+  const [showRiskPolygons] = useState(false);
   const [showCentroidRadius, setShowCentroidRadius] = useState(true);
   const [showStations, setShowStations] = useState(true);
 
