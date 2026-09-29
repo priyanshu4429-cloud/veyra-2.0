@@ -1,0 +1,16 @@
+- [x] source commit recorded
+- [x] release ZIP hash verified
+- [x] evidence archive hash verified
+- [x] ZIP contents inspected
+- [x] no secrets included
+- [x] extracted ZIP tests passed
+- [x] backend passed
+- [x] frontend passed
+- [x] build passed
+- [x] Phase-3 passed
+- [x] artifacts passed
+- [x] release gates passed
+- [x] side-effect-free verification passed
+- [x] README updated
+- [x] demo guide included
+- [x] scientific limitations documented

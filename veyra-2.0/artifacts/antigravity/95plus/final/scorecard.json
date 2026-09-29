@@ -1,0 +1,30 @@
+{
+  "repository_url": "https://github.com/priyanshu4429-cloud/veyra-2.0",
+  "commit_sha": "1400ea0c718c58d4994d2cc42b06bc167811b020",
+  "release_zip": "Veyra-2.0-95PLUS-release.zip",
+  "release_zip_sha256": "405FD9AD58D51F42FB40DA13295F61EA2BE06F03D114460306F7727AF5BC0E78",
+  "evidence_archive": "Veyra-2.0-95PLUS-evidence.zip",
+  "evidence_archive_sha256": "119DDABA31214EF8EED3F20908937FF70645DCDAE637825471ECD689A94E457B",
+  "backend_passed": 1003,
+  "backend_failed": 0,
+  "backend_errors": 0,
+  "backend_warnings": 0,
+  "frontend_passed": 111,
+  "frontend_failed": 0,
+  "frontend_act_warnings": 0,
+  "build_status": "PASS",
+  "bundle_budget_status": "PASS",
+  "phase3_data_integrity": "PASS",
+  "artifact_verification": "PASS",
+  "security_audit": "PASS",
+  "release_gates": "PASS",
+  "side_effect_free_verification": "PASS",
+  "clean_room_clone": "PASS",
+  "clean_room_zip": "PASS",
+  "independent_engineering_score": "95/100",
+  "authoritative_scientific_score": "78.49/100",
+  "remaining_limitations": [
+    "Empirical generalization to convective extremes in tropical complex terrain remains limited.",
+    "Claims must not exceed the evidence class in the manifests."
+  ]
+}
