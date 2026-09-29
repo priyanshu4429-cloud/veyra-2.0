@@ -1,0 +1,7 @@
+veyra-2.0/clean_room_zip_test
+veyra-2.0/.venv
+veyra-2.0/data
+veyra-2.0/Veyra-2.0-Submission
+*.zip
+veyra-2.0/artifacts
+veyra-2.0/builds
