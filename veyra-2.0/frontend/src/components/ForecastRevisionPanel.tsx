@@ -74,8 +74,6 @@ export const ForecastRevisionPanel: React.FC<ForecastRevisionPanelProps> = ({
     if (initialLeadHours) setLeadHours(initialLeadHours);
   }, [initialLeadHours]);
 
-  const isCertifiedScope = leadHours <= 240;
-
   const handleFetchRevision = async (locToUse = location, varToUse = variable, leadToUse = leadHours) => {
     if (!locToUse.trim()) {
       setError('Please provide a target location.');

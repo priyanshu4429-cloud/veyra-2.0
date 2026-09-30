@@ -26,7 +26,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
         longitude: 77.21,
       },
       variable: 'temperature_2m',
-      mode: 'full_16d',
+      mode: 'full_10d',
       status: 'SUCCESS',
       selected_prediction: {
         location: 'Delhi',
@@ -126,7 +126,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
     fireEvent.change(locationInput, { target: { value: 'Delhi' } });
 
     const modeSelect = screen.getByLabelText(/evaluation horizon mode/i);
-    fireEvent.change(modeSelect, { target: { value: 'full_16d' } });
+    fireEvent.change(modeSelect, { target: { value: 'full_10d' } });
 
     const auditBtn = screen.getByRole('button', { name: /audit reliability/i });
     fireEvent.click(auditBtn);
@@ -135,7 +135,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
       expect(spy).toHaveBeenCalledWith({
         location: 'Delhi',
         variable: 'temperature_2m',
-        mode: 'full_16d',
+        mode: 'full_10d',
       });
     });
 
@@ -179,7 +179,7 @@ describe('Frontend <-> Backend Exact Value Parity Regression Tests', () => {
         longitude: null,
       },
       variable: 'temperature_2m',
-      mode: 'full_16d',
+      mode: 'full_10d',
       status: 'ABSTAINED',
       selected_prediction: {
         location: 'Atlantis',

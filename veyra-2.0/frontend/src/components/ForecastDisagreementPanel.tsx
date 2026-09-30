@@ -73,8 +73,6 @@ export const ForecastDisagreementPanel: React.FC<ForecastDisagreementPanelProps>
     if (initialLeadHours) setLeadHours(initialLeadHours);
   }, [initialLeadHours]);
 
-  const isCertifiedScope = leadHours <= 240;
-
   const handleFetchDisagreement = async (locToUse = location, varToUse = variable, leadToUse = leadHours) => {
     if (!locToUse.trim()) {
       setError('Please provide a target location.');

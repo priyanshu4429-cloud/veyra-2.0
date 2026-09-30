@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { DashboardTimelinePoint } from '../api/types';
-import { TrendingUp, Award, ShieldAlert } from 'lucide-react';
+import { TrendingUp, Award } from 'lucide-react';
 
 ChartJS.register(
   CategoryScale,
