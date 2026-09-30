@@ -67,8 +67,8 @@ class DashboardIntelligenceService:
             return [24]
         if mode == DashboardMode.STANDARD_7D:
             return [24, 48, 72, 96, 120, 144, 168]
-        if mode == DashboardMode.FULL_16D:
-            return [24 * i for i in range(1, 17)]  # 24 through 384 every 24h
+        if mode == DashboardMode.FULL_10D:
+            return [24 * i for i in range(1, 11)]  # 24 through 240 every 24h
         return [24, 48, 72, 96, 120, 144, 168]
 
     def _get_agent(self) -> Any:
@@ -260,7 +260,7 @@ class DashboardIntelligenceService:
         #    Tailor forecast_days to requested mode to avoid fetching unused days:
         #    - single (24h lead): 3 days buffer (72h)
         #    - standard_7d (168h lead): 8 days buffer (192h)
-        #    - full_16d (384h lead): 16 days (384h)
+        #    - full_10d (240h lead): 16 days (240h)
         max_h = max(horizons) if horizons else 24
         needed_days = min(16, max(3, (max_h + 23) // 24 + 1))
 

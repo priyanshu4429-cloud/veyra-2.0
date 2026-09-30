@@ -5,7 +5,7 @@ Verifies:
 2. Rejection of unsupported fields on /v1/dashboard/intelligence with HTTP 422.
 3. Correct explicit-horizon derivation via issue_time + valid_time on /v1/predict.
 4. Canonical 24h evaluation when only location and variable are provided.
-5. full_16d trajectory contract: exactly 16 points (24..384h), strictly increasing, certified <= 240h.
+5. full_10d trajectory contract: exactly 10 points (24..240h), strictly increasing, certified <= 240h.
 6. standard_7d trajectory contract: exactly 7 points (24..168h).
 7. single trajectory contract: exactly 1 point (24h).
 8. Strict null/abstention safety on unknown/fictional locations (Atlantis) without fake LOW/0%.
@@ -127,12 +127,12 @@ def test_predict_canonical_single_defaults_to_24h():
 # 3. DASHBOARD MULTI-HORIZON TRAJECTORY TESTS (STAGE 8 & 9)
 # =============================================================================
 
-def test_dashboard_full_16d_exact_contract():
-    """Verify POST /v1/dashboard/intelligence mode=full_16d returns exactly 16 ordered horizons."""
+def test_dashboard_full_10d_exact_contract():
+    """Verify POST /v1/dashboard/intelligence mode=full_10d returns exactly 16 ordered horizons."""
     payload = {
         "location": "Delhi",
         "variable": "temperature_2m",
-        "mode": "full_16d",
+        "mode": "full_10d",
     }
     response = client.post("/v1/dashboard/intelligence", json=payload)
     assert response.status_code == 200
@@ -140,9 +140,9 @@ def test_dashboard_full_16d_exact_contract():
 
     assert data["status"] in (DashboardStatus.SUCCESS.value, DashboardStatus.PARTIAL.value)
     timeline = data["timeline"]
-    assert len(timeline) == 16, f"Expected exactly 16 timeline points, got {len(timeline)}"
+    assert len(timeline) == 10, f"Expected exactly 16 timeline points, got {len(timeline)}"
 
-    expected_leads = [24 * i for i in range(1, 17)]  # 24, 48, ... 384
+    expected_leads = [24 * i for i in range(1, 11)]  # 24, 48, ... 240
     actual_leads = [p["lead_hours"] for p in timeline]
     assert actual_leads == expected_leads, f"Leads mismatch: {actual_leads} != {expected_leads}"
 
@@ -219,7 +219,7 @@ def test_atlantis_negative_control_safe_abstention():
     payload = {
         "location": "Atlantis",
         "variable": "temperature_2m",
-        "mode": "full_16d",
+        "mode": "full_10d",
     }
     response = client.post("/v1/dashboard/intelligence", json=payload)
     assert response.status_code == 200
@@ -227,7 +227,7 @@ def test_atlantis_negative_control_safe_abstention():
 
     assert data["status"] == DashboardStatus.ABSTAINED.value
     timeline = data["timeline"]
-    assert len(timeline) == 16
+    assert len(timeline) == 10
 
     for p in timeline:
         assert p["abstain"] is True
@@ -240,7 +240,7 @@ def test_atlantis_negative_control_safe_abstention():
 
     summary = data["summary"]
     assert summary["available_points"] == 0
-    assert summary["abstained_points"] == 16
+    assert summary["abstained_points"] == 10
     assert summary["max_bust_probability"] is None
     assert summary["max_risk_level"] is None
     assert summary["mean_bust_probability"] is None
@@ -251,17 +251,17 @@ def test_atlantis_negative_control_safe_abstention():
 # =============================================================================
 
 @pytest.mark.parametrize("city", ["Delhi", "Kolkata", "Mumbai", "London", "Tokyo"])
-def test_multi_location_full_16d(city: str):
-    """Verify full_16d trajectory contract across diverse benchmark and global stations."""
+def test_multi_location_full_10d(city: str):
+    """Verify full_10d trajectory contract across diverse benchmark and global stations."""
     payload = {
         "location": city,
         "variable": "temperature_2m",
-        "mode": "full_16d",
+        "mode": "full_10d",
     }
     response = client.post("/v1/dashboard/intelligence", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert len(data["timeline"]) == 16
+    assert len(data["timeline"]) == 10
     assert data["location"]["resolved_name"] is not None
 
 
@@ -270,15 +270,15 @@ def test_multi_location_full_16d(city: str):
 # =============================================================================
 
 @pytest.mark.parametrize("var", ["temperature_2m", "wind_speed_10m", "surface_pressure"])
-def test_multi_variable_full_16d(var: str):
-    """Verify full_16d trajectory contract across all 3 primary meteorological variables."""
+def test_multi_variable_full_10d(var: str):
+    """Verify full_10d trajectory contract across all 3 primary meteorological variables."""
     payload = {
         "location": "Delhi",
         "variable": var,
-        "mode": "full_16d",
+        "mode": "full_10d",
     }
     response = client.post("/v1/dashboard/intelligence", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert len(data["timeline"]) == 16
+    assert len(data["timeline"]) == 10
     assert data["variable"] == var

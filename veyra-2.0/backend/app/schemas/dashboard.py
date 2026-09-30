@@ -33,7 +33,7 @@ class DashboardMode(str, Enum):
 
     SINGLE = "single"          # Canonical 24h operational lead only
     STANDARD_7D = "standard_7d"  # 7-day timeline: 24, 48, 72, 96, 120, 144, 168 hours
-    FULL_16D = "full_16d"        # Full 16-day operational timeline: 24 to 384 hours (every 24h)
+    FULL_10D = "full_10d"        # Full 10-day operational timeline: 24 to 240 hours (every 24h)
 
 
 class DashboardStatus(str, Enum):
@@ -57,7 +57,7 @@ class DashboardLocationContext(BaseModel):
 class DashboardTimelinePoint(BaseModel):
     """Typed evaluation result for a specific forecast horizon."""
 
-    lead_hours: int = Field(..., ge=1, le=384, description="Forecast lead time in hours", examples=[24])
+    lead_hours: int = Field(..., ge=1, le=240, description="Forecast lead time in hours", examples=[24])
     lead_days: float = Field(..., ge=0.0, description="Forecast lead time in days", examples=[1.0])
     valid_time: str = Field(..., description="Forecast valid verification timestamp (ISO 8601 UTC)", examples=["2026-09-11T00:00:00Z"])
     bust_probability: Optional[float] = Field(
@@ -77,7 +77,7 @@ class DashboardTimelinePoint(BaseModel):
     operational_trust_horizon_hours: Optional[int] = Field(default=168, description="Operational trust horizon limit (hours)")
     is_certified_horizon: bool = Field(
         default=True,
-        description="True if lead_hours <= 240 (covered by Day 23 frozen benchmark certification). False for 264h-384h (operational only).",
+        description="True if lead_hours <= 240 (covered by Day 23 frozen benchmark certification). False for 264h-240h (operational only).",
     )
 
 
@@ -154,13 +154,13 @@ class DashboardScientificContext(BaseModel):
     )
     benchmark_scope: str = Field(default="25 canonical stations, 3 variables, 10 lead horizons (24h to 240h)", description="Geographic and variable coverage")
     benchmark_lead_horizon_max_hours: int = Field(default=240, description="Maximum lead horizon covered by Day 23 frozen benchmark certification")
-    operational_horizon_max_hours: int = Field(default=384, description="Maximum operational forecast horizon supported by serving architecture")
+    operational_horizon_max_hours: int = Field(default=240, description="Maximum operational forecast horizon supported by serving architecture")
     historical_benchmark: HistoricalBenchmarkContext = Field(default_factory=HistoricalBenchmarkContext, description="Frozen Day 23 benchmark evaluation diagnostics")
     generalization_limits: List[str] = Field(
         default=[
             "Certified across 25 canonical synoptic stations in India only",
             "Certified for 3 target variables: temperature_2m, wind_speed_10m, surface_pressure",
-            "Certified across 10 benchmark lead horizons (24h to 240h); horizons >240h (264h-384h) are operational only and uncertified by benchmark",
+            "Certified across 10 benchmark lead horizons (24h to 240h); horizons >240h (264h-240h) are operational only and uncertified by benchmark",
             "Certified on historical Test partition (2017-2019)",
             "Evaluated on historical N=5 ensemble; operational live N=31 equivalence uncertified",
             "Post-2019 operational performance uncertified",
@@ -186,7 +186,7 @@ class DashboardRequest(BaseModel):
     )
     mode: DashboardMode = Field(
         default=DashboardMode.STANDARD_7D,
-        description="Horizon evaluation mode: single (24h), standard_7d (24h-168h), or full_16d (24h-384h)",
+        description="Horizon evaluation mode: single (24h), standard_7d (24h-168h), or full_10d (24h-240h)",
         examples=["standard_7d"],
     )
     issue_time: Optional[str] = Field(
@@ -202,7 +202,7 @@ class DashboardRequest(BaseModel):
                 {
                     "location": "Delhi",
                     "variable": "temperature_2m",
-                    "mode": "full_16d",
+                    "mode": "full_10d",
                 },
                 {
                     "location": "Kolkata",

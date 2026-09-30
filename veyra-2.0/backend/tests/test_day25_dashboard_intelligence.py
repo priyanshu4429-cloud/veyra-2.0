@@ -2,7 +2,7 @@
 
 Verifies:
 1. Route registration & OpenAPI schema
-2. Horizon mode planning (single, standard_7d, full_16d)
+2. Horizon mode planning (single, standard_7d, full_10d)
 3. Variable support (temperature_2m, wind_speed_10m, surface_pressure)
 4. Selected prediction mapping & default 24h lead
 5. Invalid location safety & early short-circuit
@@ -249,21 +249,21 @@ def test_dashboard_standard_7d_mode():
     assert resp.summary.available_points == 7
 
 
-def test_dashboard_full_16d_mode():
-    """Verify full_16d returns exactly 16 strictly ordered points from 24h to 384h."""
+def test_dashboard_full_10d_mode():
+    """Verify full_10d returns exactly 10 strictly ordered points from 24h to 240h."""
     svc = DashboardIntelligenceService(
         location_service=MockLocationService(),
         agent_factory=lambda: MockForecastBustAgent(),
     )
-    req = DashboardRequest(location="Kolkata", mode=DashboardMode.FULL_16D)
+    req = DashboardRequest(location="Kolkata", mode=DashboardMode.FULL_10D)
     resp = svc.orchestrate(req)
 
     assert resp.status == DashboardStatus.SUCCESS
-    assert len(resp.timeline) == 16
-    expected_leads = [24 * i for i in range(1, 17)]
+    assert len(resp.timeline) == 10
+    expected_leads = [24 * i for i in range(1, 11)]
     actual_leads = [p.lead_hours for p in resp.timeline]
     assert actual_leads == expected_leads
-    assert resp.summary.total_points == 16
+    assert resp.summary.total_points == 10
 
 
 # ---------------------------------------------------------------------------
@@ -334,7 +334,7 @@ def test_dashboard_invalid_location_safety():
 
 
 def test_dashboard_invalid_location_timeline_valid_time_consistency():
-    """Verify Atlantis in single, standard_7d, and full_16d modes exhibits chronologically increasing valid_time values."""
+    """Verify Atlantis in single, standard_7d, and full_10d modes exhibits chronologically increasing valid_time values."""
     mock_agent = MockForecastBustAgent()
     svc = DashboardIntelligenceService(
         location_service=MockLocationService(),
@@ -368,25 +368,25 @@ def test_dashboard_invalid_location_timeline_valid_time_consistency():
     assert len(set(valid_times_7d)) == 7
 
     # 3. Full 16d mode (Atlantis - Defect Reproduction & Repair Verification)
-    req_16d = DashboardRequest(location="Atlantis", mode=DashboardMode.FULL_16D)
+    req_16d = DashboardRequest(location="Atlantis", mode=DashboardMode.FULL_10D)
     resp_16d = svc.orchestrate(req_16d)
     assert resp_16d.status == DashboardStatus.ABSTAINED
-    assert len(resp_16d.timeline) == 16
-    assert resp_16d.summary.total_points == 16
+    assert len(resp_16d.timeline) == 10
+    assert resp_16d.summary.total_points == 10
     assert resp_16d.summary.available_points == 0
-    assert resp_16d.summary.abstained_points == 16
+    assert resp_16d.summary.abstained_points == 10
     assert resp_16d.summary.max_bust_probability is None
     assert resp_16d.summary.mean_bust_probability is None
 
     leads_16d = [p.lead_hours for p in resp_16d.timeline]
-    expected_leads_16d = [24 * i for i in range(1, 17)]
+    expected_leads_16d = [24 * i for i in range(1, 11)]
     assert leads_16d == expected_leads_16d
 
     valid_times_16d = [p.valid_time for p in resp_16d.timeline]
     # Verify chronologically strictly increasing
     assert valid_times_16d == sorted(valid_times_16d)
     # Verify no duplicates across all 16 horizons
-    assert len(set(valid_times_16d)) == 16
+    assert len(set(valid_times_16d)) == 10
 
     # Verify each valid_time corresponds precisely to its lead offset from issue_time
     issue_dt = datetime.fromisoformat(resp_16d.issue_time.replace("Z", "+00:00"))
@@ -566,7 +566,7 @@ def test_dashboard_benchmark_vs_live_separation():
     assert ctx.calibration_method == "isotonic"
     assert ctx.feature_count == 50
     assert ctx.benchmark_lead_horizon_max_hours == 240
-    assert ctx.operational_horizon_max_hours == 384
+    assert ctx.operational_horizon_max_hours == 240
 
     # Frozen Day 23 metrics must be present in historical_benchmark
     bm = ctx.historical_benchmark
@@ -585,7 +585,7 @@ def test_dashboard_240h_certification_boundary():
         location_service=MockLocationService(),
         agent_factory=lambda: MockForecastBustAgent(),
     )
-    req = DashboardRequest(location="Kolkata", mode=DashboardMode.FULL_16D)
+    req = DashboardRequest(location="Kolkata", mode=DashboardMode.FULL_10D)
     resp = svc.orchestrate(req)
 
     for pt in resp.timeline:
@@ -723,7 +723,7 @@ def test_dashboard_rate_limit_single_charge(client):
     payload = {
         "location": "Kolkata",
         "variable": "temperature_2m",
-        "mode": "full_16d",
+        "mode": "full_10d",
     }
     res = client.post("/v1/dashboard/intelligence", json=payload)
     assert res.status_code == 200
