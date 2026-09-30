@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, Circle, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { RiskMapItem } from '../api/types';
 import { BENCHMARK_LOCATIONS } from '../data/locations';
@@ -44,110 +44,7 @@ function MapResizer() {
   return null;
 }
 
-// Canonical Indian Meteorological Risk Zones (GeoJSON / Polygon coordinates)
-const DEFAULT_REGIONAL_POLYGONS: Array<{
-  id: string;
-  name: string;
-  coords: [number, number][];
-  defaultProb: number;
-  defaultBand: 'GREEN' | 'YELLOW' | 'ORANGE' | 'RED' | 'GRAY';
-  areaFraction: number;
-}> = [
-  {
-    id: 'IN_NORTH',
-    name: 'Northern Plains / Western Himalayas',
-    coords: [
-      [34.5, 74.0],
-      [34.5, 78.5],
-      [28.0, 80.5],
-      [28.0, 75.0],
-    ],
-    defaultProb: 0.18,
-    defaultBand: 'YELLOW',
-    areaFraction: 0.22,
-  },
-  {
-    id: 'IN_WEST',
-    name: 'Western Arid / Gujarat & Rajasthan',
-    coords: [
-      [28.0, 69.5],
-      [28.0, 75.0],
-      [22.0, 74.0],
-      [22.0, 68.5],
-    ],
-    defaultProb: 0.45,
-    defaultBand: 'ORANGE',
-    areaFraction: 0.18,
-  },
-  {
-    id: 'IN_CENTRAL',
-    name: 'Central Peninsular & Deccan Plateau',
-    coords: [
-      [24.0, 75.0],
-      [24.0, 83.0],
-      [18.0, 82.0],
-      [18.0, 74.5],
-    ],
-    defaultProb: 0.08,
-    defaultBand: 'GREEN',
-    areaFraction: 0.25,
-  },
-  {
-    id: 'IN_EAST',
-    name: 'Eastern Gangetic / Bay of Bengal Coast',
-    coords: [
-      [27.0, 83.0],
-      [27.0, 89.0],
-      [19.5, 87.0],
-      [19.5, 83.0],
-    ],
-    defaultProb: 0.68,
-    defaultBand: 'RED',
-    areaFraction: 0.16,
-  },
-  {
-    id: 'IN_SOUTH',
-    name: 'Southern Peninsular Coastal',
-    coords: [
-      [18.0, 74.5],
-      [18.0, 80.5],
-      [8.5, 78.5],
-      [8.5, 76.5],
-    ],
-    defaultProb: 0.12,
-    defaultBand: 'YELLOW',
-    areaFraction: 0.14,
-  },
-  {
-    id: 'IN_NORTHEAST',
-    name: 'Northeastern Hills & Brahmaputra',
-    coords: [
-      [28.5, 89.5],
-      [28.5, 96.5],
-      [23.5, 95.0],
-      [23.5, 90.0],
-    ],
-    defaultProb: 0.05,
-    defaultBand: 'GREEN',
-    areaFraction: 0.09,
-  },
-];
 
-function getRiskBandColor(band: string): string {
-  switch (band.toUpperCase()) {
-    case 'RED':
-      return '#cd2026';
-    case 'ORANGE':
-      return '#ea580c';
-    case 'YELLOW':
-      return '#b87a00';
-    case 'GREEN':
-      return '#2e8540';
-    case 'GRAY':
-    default:
-      return '#64748b';
-  }
-}
 
 interface ForecastMapProps {
   latitude?: number | null;
@@ -177,7 +74,6 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
   const position: [number, number] = [centerLat, centerLon];
 
   // Layer toggles
-  const [showRiskPolygons] = useState(false);
   const [showCentroidRadius, setShowCentroidRadius] = useState(true);
   const [showStations, setShowStations] = useState(true);
 
@@ -254,40 +150,7 @@ export const ForecastMap: React.FC<ForecastMapProps> = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Regional Risk Polygons (GeoJSON-style objects) */}
-          {showRiskPolygons &&
-            DEFAULT_REGIONAL_POLYGONS.map((zone) => {
-              const color = getRiskBandColor(zone.defaultBand);
-              return (
-                <Polygon
-                  key={zone.id}
-                  positions={zone.coords}
-                  pathOptions={{
-                    color,
-                    fillColor: color,
-                    fillOpacity: 0.35,
-                    weight: 2,
-                    dashArray: zone.defaultBand === 'GRAY' ? '4, 4' : undefined,
-                  }}
-                >
-                  <Popup>
-                    <div style={{ padding: '4px 2px' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--noaa-dark-blue)', marginBottom: '4px' }}>
-                        {zone.name}
-                      </div>
-                      <div style={{ fontSize: '0.8rem', display: 'grid', gridTemplateColumns: 'auto auto', gap: '4px 12px' }}>
-                        <span style={{ color: 'var(--noaa-muted)' }}>Risk Band:</span>
-                        <strong style={{ color }}>{zone.defaultBand}</strong>
-                        <span style={{ color: 'var(--noaa-muted)' }}>Bust Prob:</span>
-                        <strong>{(zone.defaultProb * 100).toFixed(1)}%</strong>
-                        <span style={{ color: 'var(--noaa-muted)' }}>Area Fraction:</span>
-                        <strong>{(zone.areaFraction * 100).toFixed(0)}%</strong>
-                      </div>
-                    </div>
-                  </Popup>
-                </Polygon>
-              );
-            })}
+
 
           {/* Target Location Marker & Centroid Radius */}
           {hasValidCoordinates && (
