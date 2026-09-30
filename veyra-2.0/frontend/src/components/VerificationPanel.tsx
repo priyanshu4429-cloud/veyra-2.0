@@ -35,7 +35,7 @@ const CircularGauge: React.FC<{ value: number, max?: number, color?: string, lab
             style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease', filter: `drop-shadow(0 0 4px ${color})` }}
           />
         </svg>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, color: 'var(--noaa-white)' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, color: 'var(--noaa-text)' }}>
           {label}
         </div>
       </div>
@@ -315,7 +315,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({
             style={{
               fontFamily: 'JetBrains Mono',
               fontWeight: 700,
-              color: isStandby ? 'var(--noaa-white)' : isAbstain ? '#fca5a5' : '#86efac',
+              color: isStandby ? 'var(--noaa-muted)' : isAbstain ? '#ef4444' : '#10b981',
               fontSize: '0.85rem',
             }}
           >
@@ -325,9 +325,9 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({
         <span
           className="diag-pill"
           style={{
-            background: isStandby ? 'rgba(255,255,255,0.1)' : isAbstain ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)',
-            color: isStandby ? 'var(--noaa-white)' : isAbstain ? '#fca5a5' : '#86efac',
-            border: isStandby ? '1px solid rgba(255,255,255,0.2)' : undefined,
+            background: isStandby ? 'rgba(0,0,0,0.05)' : isAbstain ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)',
+            color: isStandby ? 'var(--noaa-muted)' : isAbstain ? '#ef4444' : '#10b981',
+            border: isStandby ? '1px solid rgba(0,0,0,0.1)' : undefined,
           }}
         >
           {isStandby ? 'STANDBY' : isAbstain ? 'ABSTAIN' : 'CONSENSUS'}
@@ -424,7 +424,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({
 
             <div className="kpi-card">
               <div className="kpi-title">Stability Index</div>
-              <div className="kpi-val" style={{ color: 'var(--noaa-white)' }}>
+              <div className="kpi-val" style={{ color: 'var(--noaa-text)' }}>
                 {stabilityScore}/100
               </div>
               <div className="kpi-sub">{isStandby ? 'Baseline nominal' : 'Trajectory spread'}</div>

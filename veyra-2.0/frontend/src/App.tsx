@@ -266,11 +266,11 @@ export const App: React.FC = () => {
                   }}
                 >
                   <img src="/logo3d.jpg" alt="Veyra Logo" style={{ width: '64px', height: '64px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', opacity: 0.8 }} />
-                  <div style={{ fontWeight: 800, color: 'var(--noaa-white)', letterSpacing: '0.05em' }}>
+                  <div style={{ fontWeight: 800, color: 'var(--noaa-text)', letterSpacing: '0.05em' }}>
                     FORECAST BUST RISK TIMELINE STANDBY
                   </div>
                   <div style={{ fontSize: '0.9rem', maxWidth: '400px' }}>
-                    Select atmospheric target and click <strong style={{ color: 'var(--noaa-white)' }}>&quot;Audit Reliability&quot;</strong> to evaluate multi-horizon forecast bust risk.
+                    Select atmospheric target and click <strong style={{ color: 'var(--noaa-text)' }}>&quot;Audit Reliability&quot;</strong> to evaluate multi-horizon forecast bust risk.
                   </div>
                 </div>
               )}

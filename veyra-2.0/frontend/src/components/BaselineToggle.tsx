@@ -62,7 +62,7 @@ export const BaselineToggle: React.FC<BaselineComparisonProps> = ({
       {/* Header with Segmented Switch */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div>
-          <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--noaa-white)' }}>
+          <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--noaa-text)' }}>
             Model vs. Ensemble Spread Baseline (§17, §20, File 090)
           </h4>
           <p style={{ fontSize: '0.78rem', color: 'var(--noaa-muted)', marginTop: '2px' }}>
@@ -129,7 +129,7 @@ export const BaselineToggle: React.FC<BaselineComparisonProps> = ({
           <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--noaa-accent)', textTransform: 'uppercase' }}>
             Veyra V3 LightGBM + Conformal
           </div>
-          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--noaa-white)', marginTop: '4px' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--noaa-text)', marginTop: '4px' }}>
             {veyraProbPct}% <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>P(Bust)</span>
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--noaa-muted)', marginTop: '4px' }}>
@@ -155,7 +155,7 @@ export const BaselineToggle: React.FC<BaselineComparisonProps> = ({
           <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--noaa-muted)', textTransform: 'uppercase' }}>
             Ensemble Spread-Only (E1 Baseline)
           </div>
-          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--noaa-white)', marginTop: '4px' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--noaa-text)', marginTop: '4px' }}>
             ±{currentSpreadValue ?? 4.8} <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>Spread</span>
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--noaa-muted)', marginTop: '4px' }}>
