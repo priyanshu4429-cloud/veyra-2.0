@@ -266,7 +266,7 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
                   letterSpacing: '0.04em',
                 }}
               >
-                WITHIN FROZEN BENCHMARK LEAD SCOPE (<=240h)
+                WITHIN FROZEN BENCHMARK LEAD SCOPE (&lt;=240h)
               </span>
             </div>
             <p style={{ margin: '8px 0 0 0', color: '#94a3b8', fontSize: '0.88rem', maxWidth: '850px', lineHeight: 1.5 }}>

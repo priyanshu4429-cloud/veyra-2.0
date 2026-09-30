@@ -357,7 +357,7 @@ export const ForecastRevisionPanel: React.FC<ForecastRevisionPanelProps> = ({
               }}
             >
               <ShieldCheck size={16} />
-              Within Frozen Benchmark Lead Scope (<= 240h)
+              Within Frozen Benchmark Lead Scope (&lt;= 240h)
             </span>
           </div>
         </div>
