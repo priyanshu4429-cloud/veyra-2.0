@@ -265,7 +265,7 @@ export const App: React.FC = () => {
                     gap: '12px',
                   }}
                 >
-                  <img src="/Veyra-Know-When-Forecasts-May-Fail/logo3d.jpg" alt="Veyra Logo" style={{ width: '64px', height: '64px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', opacity: 0.8 }} />
+                  <img src="/logo3d.jpg" alt="Veyra Logo" style={{ width: '64px', height: '64px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', opacity: 0.8 }} />
                   <div style={{ fontWeight: 800, color: 'var(--noaa-white)', letterSpacing: '0.05em' }}>
                     FORECAST BUST RISK TIMELINE STANDBY
                   </div>
