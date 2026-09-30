@@ -103,25 +103,25 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
         max: 1.0,
         ticks: {
           stepSize: 0.2,
-          color: 'rgba(255, 255, 255, 0.7)',
+          color: 'var(--noaa-muted)',
           font: { size: 10, weight: 'bold' as const },
           callback: (val: any) => `${(Number(val) * 100).toFixed(0)}%`,
         },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+        grid: { color: 'var(--noaa-border-subtle)' },
         title: {
           display: true,
           text: 'Bust Probability',
-          color: 'rgba(255, 255, 255, 0.8)',
+          color: 'var(--noaa-muted)',
           font: { size: 10, weight: 'bold' as const },
         },
       },
       x: {
         ticks: {
           maxRotation: 45,
-          color: 'rgba(255, 255, 255, 0.7)',
+          color: 'var(--noaa-muted)',
           font: { size: 9, weight: 'bold' as const },
         },
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+        grid: { color: 'var(--noaa-border-subtle)' },
       },
     },
     plugins: {

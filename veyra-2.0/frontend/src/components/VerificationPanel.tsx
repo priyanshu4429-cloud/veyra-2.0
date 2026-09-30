@@ -286,7 +286,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({
             borderRadius: '6px',
             padding: '8px 12px',
             fontSize: '0.8rem',
-            color: '#bae6fd',
+            color: '#0369a1',
             marginBottom: '12px',
             display: 'flex',
             alignItems: 'center',
