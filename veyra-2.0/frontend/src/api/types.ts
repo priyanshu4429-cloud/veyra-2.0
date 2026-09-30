@@ -129,7 +129,7 @@ export interface ApiError {
   status_code?: number;
 }
 
-export type HorizonPreset = '7_DAY' | '10_DAY' | '16_DAY';
+export type HorizonPreset = '7_DAY' | '10_DAY';
 
 export interface HorizonPointResult {
   lead_hours: number;
@@ -187,7 +187,7 @@ export interface V3ModelEvaluationResponse {
   generalization_limits: string[];
 }
 
-export type DashboardMode = 'single' | 'standard_7d' | 'full_16d';
+export type DashboardMode = 'single' | 'standard_7d' | 'full_10d';
 export type DashboardStatus = 'SUCCESS' | 'PARTIAL' | 'ABSTAINED';
 
 export interface DashboardLocationContext {

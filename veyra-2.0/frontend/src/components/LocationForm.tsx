@@ -170,7 +170,7 @@ export const LocationForm: React.FC<LocationFormProps> = ({
         >
           <option value="single">Single (24h Canonical Operational Lead)</option>
           <option value="standard_7d">Standard 7 Day (24h–168h Multi-Horizon)</option>
-          <option value="full_16d">Full 16 Day (24h–384h Synoptic Extension)</option>
+          <option value="full_10d">Full 10 Day (24h–240h Operational Horizon)</option>
         </select>
       </div>
 

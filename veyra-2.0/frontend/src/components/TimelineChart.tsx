@@ -155,10 +155,6 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           <span className="legend-badge badge-certified" title="Covered by Day 23 frozen benchmark certification (2017-2019)">
             <Award size={12} /> &le;240h Certified Scope
           </span>
-          <span className="legend-badge badge-operational" title="Operational numerical extension (uncertified by benchmark)">
-            <ShieldAlert size={12} /> &gt;240h Operational Scope
-          </span>
-        </div>
       </div>
 
       <div className="timeline-canvas-wrap">

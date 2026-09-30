@@ -45,13 +45,7 @@ const HORIZON_OPTIONS = [
   { lead: 168, label: '168h (7 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 192, label: '192h (8 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 216, label: '216h (9 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 240, label: '240h (10 Days) [Benchmark Limit]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 264, label: '264h (11 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 288, label: '288h (12 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 312, label: '312h (13 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 336, label: '336h (14 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 360, label: '360h (15 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 384, label: '384h (16 Days) [Max Operational Horizon]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
+  { lead: 240, label: '240h (10 Days) [Max Horizon]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
 ];
 
 export const ForecastRevisionPanel: React.FC<ForecastRevisionPanelProps> = ({
@@ -357,15 +351,13 @@ export const ForecastRevisionPanel: React.FC<ForecastRevisionPanelProps> = ({
                 borderRadius: '6px',
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                background: isCertifiedScope ? '#ecfdf5' : '#fffbeb',
-                color: isCertifiedScope ? '#065f46' : '#92400e',
-                border: `1px solid ${isCertifiedScope ? '#a7f3d0' : '#fde68a'}`,
+                background: '#ecfdf5',
+                color: '#065f46',
+                border: '1px solid #a7f3d0',
               }}
             >
               <ShieldCheck size={16} />
-              {isCertifiedScope
-                ? 'Within Frozen Benchmark Lead Scope (<= 240h)'
-                : 'Extended Operational Horizon (264h–384h)'}
+              Within Frozen Benchmark Lead Scope (<= 240h)
             </span>
           </div>
         </div>

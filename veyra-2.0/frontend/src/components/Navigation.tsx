@@ -119,20 +119,6 @@ export const Navigation: React.FC<NavigationProps> = ({ view, setView, onOpenPro
             onClick={() => handleSelectView('spatial')}
           >
             <MapPin size={16} /> Spatial Reliability
-            <span
-              style={{
-                marginLeft: '6px',
-                background: '#0ea5e9',
-                color: '#ffffff',
-                padding: '2px 7px',
-                borderRadius: '10px',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Day 27
-            </span>
           </button>
         </div>
 
@@ -144,20 +130,6 @@ export const Navigation: React.FC<NavigationProps> = ({ view, setView, onOpenPro
             onClick={() => handleSelectView('multi-location')}
           >
             <SlidersHorizontal size={16} /> Multi-Location
-            <span
-              style={{
-                marginLeft: '6px',
-                background: '#8b5cf6',
-                color: '#ffffff',
-                padding: '2px 7px',
-                borderRadius: '10px',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Day 28
-            </span>
           </button>
         </div>
 
@@ -169,20 +141,6 @@ export const Navigation: React.FC<NavigationProps> = ({ view, setView, onOpenPro
             onClick={() => handleSelectView('disagreement')}
           >
             <GitCompare size={16} /> Disagreement
-            <span
-              style={{
-                marginLeft: '6px',
-                background: '#6366f1',
-                color: '#ffffff',
-                padding: '2px 7px',
-                borderRadius: '10px',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Day 29
-            </span>
           </button>
         </div>
 
@@ -194,20 +152,6 @@ export const Navigation: React.FC<NavigationProps> = ({ view, setView, onOpenPro
             onClick={() => handleSelectView('revision')}
           >
             <TrendingUp size={16} /> Revision
-            <span
-              style={{
-                marginLeft: '6px',
-                background: '#0284c7',
-                color: '#ffffff',
-                padding: '2px 7px',
-                borderRadius: '10px',
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Day 30
-            </span>
           </button>
         </div>
 

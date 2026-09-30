@@ -615,7 +615,7 @@ BRIER SKILL SCORE VS ENSEMBLE SPREAD (E1b): ${scientificContext?.historical_benc
 ${(scientificContext?.generalization_limits || [
   'Certified across 25 canonical synoptic stations in India only',
   'Certified for 3 target variables: temperature_2m, wind_speed_10m, surface_pressure',
-  'Certified across 10 benchmark lead horizons (24h to 240h); horizons >240h (264h-384h) are operational only',
+  'Certified across 10 benchmark lead horizons (24h to 240h); Maximum operational horizon is 240h.',
   'Certified on historical Test partition (2017-2019)',
   'Model estimates empirical forecast-bust probability, NOT severe weather or disaster risk',
 ]).map((lim) => `• ${lim}`).join('\n')}`}

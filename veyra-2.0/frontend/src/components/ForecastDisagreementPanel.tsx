@@ -41,13 +41,7 @@ const HORIZON_OPTIONS = [
   { lead: 168, label: '168h (7 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 192, label: '192h (8 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 216, label: '216h (9 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 240, label: '240h (10 Days) [Benchmark Limit]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 264, label: '264h (11 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 288, label: '288h (12 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 312, label: '312h (13 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 336, label: '336h (14 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 360, label: '360h (15 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 384, label: '384h (16 Days) [Max Operational Horizon]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
+  { lead: 240, label: '240h (10 Days) [Max Horizon]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
 ];
 
 export const ForecastDisagreementPanel: React.FC<ForecastDisagreementPanelProps> = ({
@@ -255,27 +249,25 @@ export const ForecastDisagreementPanel: React.FC<ForecastDisagreementPanelProps>
         </div>
 
         {/* Scientific Lead Scope Banner */}
-        <div
-          style={{
-            marginTop: '4px',
-            padding: '8px 14px',
-            borderRadius: '6px',
-            background: isCertifiedScope ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.25)',
-            border: isCertifiedScope ? '1px solid rgba(52, 211, 153, 0.4)' : '1px solid rgba(251, 191, 36, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            fontSize: '0.82rem',
-            fontWeight: 600,
-          }}
-        >
-          <Activity size={15} color={isCertifiedScope ? '#34d399' : '#fbbf24'} />
-          <span>
-            {isCertifiedScope
-              ? 'WITHIN FROZEN BENCHMARK LEAD SCOPE (≤ 240h): Evaluated against certified Day 22 / Day 24 benchmark lead horizons.'
-              : 'EXTENDED OPERATIONAL HORIZON (264–384h): Evaluated for operational situational awareness; beyond the frozen 240h benchmark scope.'}
-          </span>
-        </div>
+          <div
+            style={{
+              marginTop: '4px',
+              padding: '8px 14px',
+              borderRadius: '6px',
+              background: 'rgba(16, 185, 129, 0.2)',
+              border: '1px solid rgba(52, 211, 153, 0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+            }}
+          >
+            <Activity size={15} color="#34d399" />
+            <span>
+              WITHIN FROZEN BENCHMARK LEAD SCOPE (≤ 240h): Evaluated against certified Day 22 / Day 24 benchmark lead horizons.
+            </span>
+          </div>
       </div>
 
       {/* Control Bar: Location, Variable, Lead Horizon */}

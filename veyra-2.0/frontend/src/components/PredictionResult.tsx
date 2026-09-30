@@ -273,13 +273,13 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({ prediction }
         {isAbstained ? (
           <>
             Atmospheric forecast reliability evaluation for{' '}
-            <strong style={{ color: 'var(--text-primary)' }}>{location}</strong> requires manual forecaster review.
+            <strong style={{ color: '#ffffff' }}>{location}</strong> requires manual forecaster review.
             Do not make automated operational decisions using uncalibrated predictions.
           </>
         ) : (
           <>
             Estimated calibrated probability that the forecast for{' '}
-            <strong style={{ color: 'var(--text-primary)' }}>{location}</strong> will exceed the stratum-specific 95th percentile error threshold at {lead_hours ?? 48}h lead.
+            <strong style={{ color: '#ffffff' }}>{location}</strong> will exceed the stratum-specific 95th percentile error threshold at {lead_hours ?? 48}h lead.
           </>
         )}
       </p>

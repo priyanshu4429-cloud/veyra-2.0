@@ -33,13 +33,7 @@ const HORIZON_OPTIONS = [
   { lead: 168, label: '168h (7 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 192, label: '192h (8 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
   { lead: 216, label: '216h (9 Days)', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 240, label: '240h (10 Days) [Benchmark Scope Limit]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
-  { lead: 264, label: '264h (11 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 288, label: '288h (12 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 312, label: '312h (13 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 336, label: '336h (14 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 360, label: '360h (15 Days) [Extended Operational]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
-  { lead: 384, label: '384h (16 Days) [Max Operational Horizon]', scope: 'EXTENDED_OPERATIONAL_HORIZON' },
+  { lead: 240, label: '240h (10 Days) [Max Horizon]', scope: 'FROZEN_BENCHMARK_LEAD_SCOPE' },
 ];
 
 export type SortField = 'prob_desc' | 'prob_asc' | 'risk_desc' | 'name_asc' | 'input_order';
@@ -263,7 +257,7 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
               </h1>
               <span
                 style={{
-                  background: isCertifiedScope ? '#059669' : '#d97706',
+                  background: '#059669',
                   color: '#ffffff',
                   padding: '3px 10px',
                   borderRadius: '12px',
@@ -272,7 +266,7 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
                   letterSpacing: '0.04em',
                 }}
               >
-                {isCertifiedScope ? 'WITHIN FROZEN BENCHMARK LEAD SCOPE (<=240h)' : 'EXTENDED OPERATIONAL HORIZON (264h-384h)'}
+                WITHIN FROZEN BENCHMARK LEAD SCOPE (<=240h)
               </span>
             </div>
             <p style={{ margin: '8px 0 0 0', color: '#94a3b8', fontSize: '0.88rem', maxWidth: '850px', lineHeight: 1.5 }}>
@@ -429,8 +423,8 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
         <div>
           <label htmlFor="multi-horizon-select" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8', marginBottom: '6px' }}>
             <span>Forecast Lead Horizon</span>
-            <span style={{ color: isCertifiedScope ? '#059669' : '#d97706', fontWeight: 700 }}>
-              {isCertifiedScope ? 'Within Benchmark Scope' : 'Extended Operational'}
+            <span style={{ color: '#059669', fontWeight: 700 }}>
+              Within Benchmark Scope
             </span>
           </label>
           <select
@@ -441,7 +435,7 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
               width: '100%',
               padding: '8px 12px',
               borderRadius: '6px',
-              border: `1px solid ${isCertifiedScope ? '#cbd5e1' : '#f59e0b'}`,
+              border: '1px solid #cbd5e1',
               fontSize: '0.88rem',
               fontWeight: 600,
               color: '#f8fafc',
@@ -450,13 +444,6 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
           >
             <optgroup label="Within Frozen Benchmark Lead Scope (<=240h)">
               {HORIZON_OPTIONS.filter((h) => h.scope === 'FROZEN_BENCHMARK_LEAD_SCOPE').map((h) => (
-                <option key={h.lead} value={h.lead}>
-                  {h.label}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Extended Operational Horizon (264h–384h)">
-              {HORIZON_OPTIONS.filter((h) => h.scope === 'EXTENDED_OPERATIONAL_HORIZON').map((h) => (
                 <option key={h.lead} value={h.lead}>
                   {h.label}
                 </option>
@@ -634,11 +621,11 @@ export const MultiLocationPanel: React.FC<MultiLocationPanelProps> = ({ onNaviga
               style={{
                 fontSize: '0.88rem',
                 fontWeight: 800,
-                color: isCertifiedScope ? '#059669' : '#d97706',
+                color: '#059669',
                 marginTop: '8px',
               }}
             >
-              {isCertifiedScope ? 'WITHIN FROZEN BENCHMARK LEAD SCOPE' : 'EXTENDED OPERATIONAL HORIZON'}
+              WITHIN FROZEN BENCHMARK LEAD SCOPE
             </div>
             <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px' }}>
               {leadHours}h Lead Horizon
